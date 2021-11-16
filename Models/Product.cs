@@ -8,7 +8,6 @@ namespace Ecom.Models
         [Key]
         public int ProductID { get; set; }
         public string ProductName { get; set; }
-        public DateTime DateAdded { get; set; }
         public decimal ListPrice { get; set; }
         //[ForeignKey("Category")]
         public Category Category { get; set; }
