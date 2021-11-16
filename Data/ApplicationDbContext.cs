@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Ecom.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,5 +19,8 @@ namespace Ecom.Data
             : base(options)
         {
         }
+        public DbSet<produktCategoriModel> Products { get; set; }
     }
+
+   
 }
