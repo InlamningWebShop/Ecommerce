@@ -21,6 +21,10 @@ namespace Ecom.Controllers
         {
             return View();
         }
+        public IActionResult ProductCards()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {
