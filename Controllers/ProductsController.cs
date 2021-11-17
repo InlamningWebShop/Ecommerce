@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Ecom.Data;
 using Ecom.Models;
-
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 namespace Ecom.Controllers
 {
     public class ProductsController : Controller
@@ -48,7 +48,7 @@ namespace Ecom.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CategoryID"] = new SelectList(_context.Categories, "CategoryID", "CategoryID");
+            ViewData["CategoryID"] = new SelectList(_context.Categories, "CategoryID", "CategoryName");
             return View();
         }
 
@@ -59,6 +59,18 @@ namespace Ecom.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProductID,ProductName,ListPrice,CategoryID")] Product product)
         {
+            //
+            if (ModelState["Category"].ValidationState == ModelValidationState.Invalid)
+            {
+                if (product.CategoryID > 0)
+                {
+                    product.Category = _context.Categories.FirstOrDefault(cat => cat.CategoryID == product.CategoryID);
+                    if (product.Category != null)
+                    {
+                        ModelState["Category"].ValidationState = ModelValidationState.Valid;
+                    }
+                }
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(product);
