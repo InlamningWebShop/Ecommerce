@@ -16,3 +16,14 @@ html {
 body {
   margin-bottom: 60px;
 }
+#checkout {
+    float: right;
+    position:sticky;
+}
+#discount1 {
+    float:right;
+    position:sticky;
+}
+#img {
+    width: 45px;
+}

@@ -17,6 +17,10 @@ namespace Ecom.Controllers
         {
             return View();
         }
+        public IActionResult ShoppingCart()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {
