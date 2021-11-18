@@ -6,6 +6,7 @@ namespace Ecom.Models
     {
         [Key]
         public int CartID { get; set; }
-        public CartItem CartItems { get; set;}
+
+        //public CartItem CartItems { get; set;}
     }
 }
