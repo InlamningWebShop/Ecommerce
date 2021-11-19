@@ -5,6 +5,9 @@ namespace Ecom.Models
 {
     public class Product
     {
+        public Product()
+        {
+        }
         [Key]
         public int ProductID { get; set; }
         public string ProductName { get; set; }
