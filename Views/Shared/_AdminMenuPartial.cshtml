@@ -1,11 +1,12 @@
 ﻿
+
 <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
     Admin
   </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-    <li><button class="dropdown-item" asp-area="Admin" asp-controller="Categories" asp-action="Index" type="button">Categories</button></li>
-    <li><button class="dropdown-item" type="button">View Orders</button></li>
-    
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><a class="dropdown-item" asp-controller="Categories" asp-action="Index">Categories</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="#">View Orders</a></li>
   </ul>
 </div>
