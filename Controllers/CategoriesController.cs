@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Ecom.Data;
 using Ecom.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Ecom.Controllers
 {
@@ -46,6 +47,8 @@ namespace Ecom.Controllers
         // GET: Categories/Create
         public IActionResult Create()
         {
+            ViewData["CategoryID"] = new SelectList(_context.Categories, "CategoryID", "CategoryName");
+
             return View();
         }
 
@@ -54,14 +57,28 @@ namespace Ecom.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryID,CategoryName")] Category category)
+        public async Task<IActionResult> Create([Bind("CategoryName,CategoryID")] Category category)
         {
+            //if (ModelState["Category"].ValidationState == ModelValidationState.Invalid)
+            //{
+            //    if (category.CategoryID > 0)
+            //    {
+            //        category = _context.Categories.FirstOrDefault(cat => cat.CategoryID == category.CategoryID);
+            //        if (category != null)
+            //        {
+            //            ModelState["Category"].ValidationState = ModelValidationState.Valid;
+            //        }
+            //    }
+            //}
+
             if (ModelState.IsValid)
             {
                 _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            //ViewData["CategoryID"] = new SelectList(_context.Categories, "CategoryID", "CategoryID", category.CategoryID);
+
             return View(category);
         }
 
