@@ -4,6 +4,7 @@ using Ecom.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecom.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211124104106_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,16 +105,7 @@ namespace Ecom.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartID"), 1L, 1);
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("CartID");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Carts");
                 });
@@ -339,13 +332,6 @@ namespace Ecom.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Ecom.Models.Cart", b =>
-                {
-                    b.HasOne("Ecom.Data.ApplicationUser", null)
-                        .WithMany("Carts")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
             modelBuilder.Entity("Ecom.Models.CartItem", b =>
                 {
                     b.HasOne("Ecom.Models.Cart", "Carts")
@@ -436,11 +422,6 @@ namespace Ecom.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Ecom.Data.ApplicationUser", b =>
-                {
-                    b.Navigation("Carts");
                 });
 
             modelBuilder.Entity("Ecom.Models.Cart", b =>
