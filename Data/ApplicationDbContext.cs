@@ -7,10 +7,15 @@ namespace Ecom.Data
 {
     public class ApplicationUser:IdentityUser
     {
+        public ApplicationUser()
+        {
+            Carts = new List<Cart>();
+        }
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
 
+        public ICollection<Cart> Carts { get; set; }
 
     }
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

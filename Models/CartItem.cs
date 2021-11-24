@@ -4,6 +4,10 @@ namespace Ecom.Models
 {
     public class CartItem
     {
+        public CartItem()
+        {
+
+        }
         [Key]
         public int ItemID { get; set; }
         public Product Products { get; set;}

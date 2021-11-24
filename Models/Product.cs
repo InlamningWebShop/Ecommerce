@@ -7,6 +7,7 @@ namespace Ecom.Models
     {
         public Product()
         {
+            CartItems = new List<CartItem>();
         }
         [Key]
         public int ProductID { get; set; }
@@ -15,8 +16,8 @@ namespace Ecom.Models
         //[ForeignKey("Category")]
         public Category Category { get; set; }
         public int CategoryID { get; set; }
-        //public Stock Stocks { get; set; }
-        //public ICollection<CartItem> CartItems { get; set; }
+        public Stock Stocks { get; set; }
+        public ICollection<CartItem> CartItems { get; set; }
 
     }
 }

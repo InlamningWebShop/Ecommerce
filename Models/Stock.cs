@@ -4,6 +4,10 @@ namespace Ecom.Models
 {
     public class Stock
     {
+        public Stock()
+        {
+                
+        }
         public Product Product { get; set; }
         [Key]
         public int ProductID { get; set; }
