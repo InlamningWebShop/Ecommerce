@@ -4,7 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>gfdg</h1>
+
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,23 +14,34 @@
     <thead>
         <tr>
             <th>
+
                 @Html.DisplayNameFor(model => model.CategoryName)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CategoryID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CategoryID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CategoryID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="card" style="width: 18rem;">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title"> @Html.DisplayFor(modelItem => item.CategoryName)</h5>
+                            <p class="card-text"><a asp-action="Edit" asp-route-id="@item.CategoryID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.CategoryID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.CategoryID">Delete</a> </p>
+                            <a href="Home/ProductCards" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                   
+                </td>
+                <td>
+
+                    
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
