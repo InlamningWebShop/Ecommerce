@@ -1,14 +1,25 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore
+@using Ecom.Data
 
-<div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-    Admin
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-    <li><a class="dropdown-item" asp-controller="AdminCategories" asp-action="Index">Add Categories</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" asp-controller="AdminProducts" asp-action="Index">Add Products</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="#">View Orders</a></li>
-  </ul>
-</div>
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@*An if statement to check if the user is logged in and if the user has an admin rolle*@
+
+@if (SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(UserManager.GetUserAsync(User).Result, "admin"))
+
+{
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Admin
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" asp-controller="AdminCategories" asp-action="Index">Add Categories</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" asp-controller="AdminProducts" asp-action="Index">Add Products</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">View Orders</a></li>
+        </ul>
+    </div>
+}
