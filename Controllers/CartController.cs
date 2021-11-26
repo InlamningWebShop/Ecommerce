@@ -7,21 +7,44 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Ecom.Data;
 using Ecom.Models;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace Ecom.Controllers
 {
     public class CartController : Controller
     {
+        ApplicationUser ctx = new ApplicationUser();
+
         private readonly ApplicationDbContext _context;
 
         public CartController(ApplicationDbContext context)
         {
             _context = context;
         }
+        public ActionResult AddToCart(int productId)
+        {
+            var cart = new List<CartItem>();
+            var product = _context.Products.FirstOrDefault(p=>p.ProductID==productId);
+            if (product != null)
+            {
 
+           
+            cart.Add(new CartItem()
+            {
+                Products = product,
+                Quantity = 1
+            });
+                HttpContext.Session.SetObjectAsJson("cart", cart);
+            }
+           
+                return View();
+        }
         // GET: Cart
         public async Task<IActionResult> Index()
         {
+            var cart = HttpContext.Session.GetObjectFromJson<CartItem>("cart");
+
             return View(await _context.Carts.ToListAsync());
         }
 
@@ -148,6 +171,20 @@ namespace Ecom.Controllers
         private bool CartExists(int id)
         {
             return _context.Carts.Any(e => e.CartID == id);
+        }
+    }
+    public static class SessionExtensions
+    {
+        public static void SetObjectAsJson(this ISession session, string key, object value)
+        {
+            session.SetString(key, JsonConvert.SerializeObject(value));
+        }
+
+        public static T GetObjectFromJson<T>(this ISession session, string key)
+        {
+            var value = session.GetString(key);
+
+            return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
     }
 }
