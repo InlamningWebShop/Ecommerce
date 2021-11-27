@@ -1,5 +1,7 @@
-﻿using Ecom.Models;
+﻿using Ecom.Data;
+using Ecom.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 
 namespace Ecom.Controllers
@@ -7,10 +9,12 @@ namespace Ecom.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ApplicationDbContext _context;
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context
+            )
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -21,9 +25,12 @@ namespace Ecom.Controllers
         {
             return View();
         }
+        //
         public IActionResult ProductCards()
         {
-            return View();
+            var productList = _context.Products.Select(p => p).ToList();
+           // ViewData["CategoryID"] = new SelectList(_context.Categories, "CategoryID", "CategoryName");
+            return PartialView("ProductCards", productList);
         }
 
         public IActionResult Privacy()

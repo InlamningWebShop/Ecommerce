@@ -1,11 +1,48 @@
-﻿
+﻿@model IEnumerable<Ecom.Models.Product>
+
 @{
     ViewData["Title"] = "ProductCards";
 }
 
 <!--For Page-->
 <div class="page">
+
+
     <div>
+            <h3><a href="">Family Cars</a></h3>
+    <!--For Row containing all card-->
+    <div class="row">
+
+        <!--Card 1-->
+        <div class="col-sm  ">
+            <div class="card card-cascade card-ecommerce wider shadow mb-5 ">
+                <!-- FIRST ADD IMAGES TO DB TABLE 
+                <div class="view view-cascade overlay text-center"> <img class="card-img-top" src="https://content.homenetiol.com/698/2163991/1920x1080/a91482ef89964320a366d84883af4fc5.jpg" alt=""> <a>
+                        <div class="mask rgba-white-slight"></div>
+                    </a> 
+                    </div>Card image-->
+                <!--Card Body-->
+                <div class="card-body card-body-cascade text-center">
+                    <!--Card Title-->
+                    @foreach(var p in Model)
+                    {
+                            
+                        <h4 class="card-title"><strong>@p.ProductName</strong></h4> <!-- Card Description-->
+                    <p class="card-text">blah blah blah or @p.CategoryID</p>
+                    <p class="price">$ @p.ListPrice</p>
+                    <!--Card footer-->
+                    <div class="card-footer">
+                        <p><button class="btn btn-success">ADD TO CART</button></p>
+                    </div>
+                     }
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+@*    <div>
 
     <h3><a href="">Family Cars</a></h3>
     <!--For Row containing all card-->
@@ -353,6 +390,6 @@
                 </div>
             </div>
         </div>
-
+*@
 
     </div>
