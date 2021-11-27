@@ -1,4 +1,4 @@
-﻿
+﻿@model Ecom.Controllers.CartController;
 @{
     ViewData["Title"] = "Shopping Cart";
 }
@@ -79,7 +79,7 @@
                     <thead>
                         <tr>
                             <td class="hidden-xs">Image</td>
-                            <td>Product Name</td>
+                            <td>@Model</td>
                             <td>Size</td>
                             <td>Color</td>
                             <td class="td-qty">Quantity</td>
