@@ -1,4 +1,4 @@
-﻿@model Ecom.Models.Cart
+﻿@model Ecom.Models.CartItem
 
 @{
     ViewData["Title"] = "Delete";
@@ -12,10 +12,11 @@
     <hr />
     <dl class="row">
     </dl>
-    
+
     <form asp-action="Delete">
-        <input type="hidden" asp-for="CartID" />
+        <input type="hidden" asp-for="ProductID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
-    </form>
+        </form>
+
 </div>

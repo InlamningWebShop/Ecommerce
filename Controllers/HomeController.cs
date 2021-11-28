@@ -10,6 +10,8 @@ namespace Ecom.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+        public const string SessionKeyName = "_TestName";
+        public const string SessionKeyAge = "_Age";
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context
             )
         {
@@ -25,13 +27,23 @@ namespace Ecom.Controllers
         {
             return View();
         }
-        //
-        public IActionResult ProductCards()
-        {
-            var productList = _context.Products.Select(p => p).ToList();
-           // ViewData["CategoryID"] = new SelectList(_context.Categories, "CategoryID", "CategoryName");
-            return PartialView("ProductCards", productList);
-        }
+        ////GET
+        //public IActionResult ShowProductsPage()
+        //{
+        //    var productList = _context.Products.Select(p => p).ToList();
+        //    // ViewData["CategoryID"] = new SelectList(_context.Categories, "CategoryID", "CategoryName");
+        //    HttpContext.Session.SetString(SessionKeyName, "The Doctor test");
+        //    return PartialView("ProductCards", productList);
+        //}
+        //POST
+        //public IActionResult AddProductToCard(int id)
+        //{
+        //    var productToBeAdded = _context.Products.Where(p => p.ProductID == id).FirstOrDefault();
+        //    //Session update
+        //    // ViewData["CategoryID"] = new SelectList(_context.Categories, "CategoryID", "CategoryName");
+        //    //return PartialView("ProductCards", productList);
+        //    return Ok();
+        //}
 
         public IActionResult Privacy()
         {

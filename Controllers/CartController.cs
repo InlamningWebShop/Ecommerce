@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using Ecom.Data;
 using Ecom.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Ecom.Helpers;
 
 namespace Ecom.Controllers
 {
@@ -17,8 +19,12 @@ namespace Ecom.Controllers
         ApplicationUser ctx = new ApplicationUser();
 
         private readonly ApplicationDbContext _context;
+        public List<CartItem> cartItem { get; set; }
+        public decimal? Total { get; set; }
+
 
         public CartController(ApplicationDbContext context)
+
         {
             _context = context;
         }
@@ -41,11 +47,14 @@ namespace Ecom.Controllers
                 return View();
         }
         // GET: Cart
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var cart = HttpContext.Session.GetObjectFromJson<CartItem>("cart");
-
-            return View(await _context.Carts.ToListAsync());
+            cartItem = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart");
+            //var result = await _context.Carts.ToListAsync();
+            Total = cartItem.Sum(i => i.Products.ListPrice * i.Quantity);
+            return View(cartItem
+                
+                );
         }
 
         // GET: Cart/Details/5
@@ -89,19 +98,21 @@ namespace Ecom.Controllers
         }
 
         // GET: Cart/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var cart = await _context.Carts.FindAsync(id);
-            if (cart == null)
+            //var cart = await _context.Carts.FindAsync(id);
+            cartItem = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart");
+            var itemToBeEdited = cartItem.Where(ci => ci.Products.ProductID == id).FirstOrDefault();
+            if (!cartItem.Any())
             {
                 return NotFound();
             }
-            return View(cart);
+            return View(itemToBeEdited);
         }
 
         // POST: Cart/Edit/5
@@ -109,9 +120,12 @@ namespace Ecom.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CartID")] Cart cart)
+        public async Task<IActionResult> Edit(int id, int quantity)
         {
-            if (id != cart.CartID)
+            cartItem = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart");
+            var itemToBeEdited = cartItem.Where(ci => ci.Products.ProductID == id).FirstOrDefault();
+
+            if (id != itemToBeEdited.Products.ProductID)
             {
                 return NotFound();
             }
@@ -120,23 +134,33 @@ namespace Ecom.Controllers
             {
                 try
                 {
-                    _context.Update(cart);
-                    await _context.SaveChangesAsync();
+                    itemToBeEdited.Quantity = quantity;
+                    if (quantity <= 0)
+                    {
+                        //redirect to delet endpoint
+                    }
+                    HttpContext.Session.SetObjectAsJson("cart", cartItem);
+
+                    //_context.Update(cart);
+                    //await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                //catch (DbUpdateConcurrencyException)
+                //{
+                //if (!CartExists(cart.CartID))
+                //{
+                //    return NotFound();
+                //}
+                //else
+                //{
+                //    throw;
+                //}
+                catch (Exception ex)
                 {
-                    if (!CartExists(cart.CartID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw new Exception(ex.Message);
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
             }
-            return View(cart);
+            return View("Edit");
         }
 
         // GET: Cart/Delete/5
@@ -147,14 +171,24 @@ namespace Ecom.Controllers
                 return NotFound();
             }
 
-            var cart = await _context.Carts
-                .FirstOrDefaultAsync(m => m.CartID == id);
-            if (cart == null)
+            //var cart = await _context.Carts
+            //    .FirstOrDefaultAsync(m => m.CartID == id);
+            //if (cart == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //return View(cart);
+            cartItem = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart");
+            var itemToBeDeleted = cartItem.Where(ci => ci.Products.ProductID == id).FirstOrDefault();
+            if (!cartItem.Any())
             {
                 return NotFound();
             }
+            //ViewBag.DeleteSuccess = null;
 
-            return View(cart);
+            return View(itemToBeDeleted);
+
         }
 
         // POST: Cart/Delete/5
@@ -162,10 +196,17 @@ namespace Ecom.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cart = await _context.Carts.FindAsync(id);
-            _context.Carts.Remove(cart);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //var cart = await _context.Carts.FindAsync(id);
+            //_context.Carts.Remove(cart);
+            //await _context.SaveChangesAsync();
+            cartItem = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart");
+            var itemToBeDeleted = cartItem.Where(ci => ci.Products.ProductID == id).FirstOrDefault();
+            var itemName = itemToBeDeleted.Products.ProductName;
+            cartItem.Remove(itemToBeDeleted);
+            HttpContext.Session.SetObjectAsJson("cart", cartItem);
+            //ViewBag.DeleteSuccess = $"item {itemName} has been deleted successfully";
+            // return RedirectToAction(nameof(Index));
+            return View("Delete");
         }
 
         private bool CartExists(int id)
@@ -173,18 +214,18 @@ namespace Ecom.Controllers
             return _context.Carts.Any(e => e.CartID == id);
         }
     }
-    public static class SessionExtensions
-    {
-        public static void SetObjectAsJson(this ISession session, string key, object value)
-        {
-            session.SetString(key, JsonConvert.SerializeObject(value));
-        }
+    //public static class SessionExtensions
+    //{
+    //    public static void SetObjectAsJson(this ISession session, string key, object value)
+    //    {
+    //        session.SetString(key, JsonConvert.SerializeObject(value));
+    //    }
 
-        public static T GetObjectFromJson<T>(this ISession session, string key)
-        {
-            var value = session.GetString(key);
+    //    public static T GetObjectFromJson<T>(this ISession session, string key)
+    //    {
+    //        var value = session.GetString(key);
 
-            return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
-        }
-    }
+    //        return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
+    //    }
+    //}
 }
