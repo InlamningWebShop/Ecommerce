@@ -1,0 +1,36 @@
+﻿@using Ecom.Models;
+
+@{
+     ViewBag.Title = "CheckoutDetails";
+
+}
+
+@*@if (HttpContext.Session["cart"] == null)
+{
+    <div class="alert alert-danger">
+        <strong>No Product added to cart!</strong>
+    </div>
+}
+
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+            <th>Product></th>
+            <th>Quantity></th>
+            </tr>>
+        </thead>
+        <tbody>
+            @foreach (CartItem item in (List<CartItem>)HttpContext.Session["cart"])
+                {
+                    int lineTotal = Convert.ToInt32(item.Quantity * item.Product.Price);
+                <tr>
+                    <td>Product</td>
+                    <td>Quantity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button class="btn btn-success" href="Url.Action("CheckoutDetails","Home")">Checkout</button>
+}*@

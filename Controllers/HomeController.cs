@@ -27,6 +27,10 @@ namespace Ecom.Controllers
         {
             return View();
         }
+        public IActionResult CheckoutDetails()
+        {
+            return View();
+        }
         ////GET
         //public IActionResult ShowProductsPage()
         //{
