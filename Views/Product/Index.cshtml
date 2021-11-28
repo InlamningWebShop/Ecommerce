@@ -33,8 +33,8 @@
                     <!--Card footer-->
                     <div class="card-footer">
                         <p>
-                            <button type="submit" class="btn btn-success" @Html.ActionLink("AddME!", "Action", "Controeller", new {id = @p.ProductID})>ADD TO CART</button>
-                                                <a asp-page="cart" asp-controller="Home" asp-action="AddProductToCard" asp-route-id="@p.ProductID">Add to the Card through asp-tags</a>
+                            <button type="submit" class="btn btn-success">
+                                                <a asp-area="" asp-controller="Product" asp-action="AddProductToCard" asp-route-id="@p.ProductID">Add to the Card through asp-tags</a></button>
 
                             </p>
                     </div>

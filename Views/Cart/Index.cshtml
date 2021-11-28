@@ -1,10 +1,10 @@
-﻿@model IEnumerable<Ecom.Models.Cart>
+﻿@model IEnumerable<Ecom.Models.CartItem>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+@*<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -25,5 +25,78 @@
             </td>
         </tr>
 }
+    </tbody>
+</table>
+
+<div>*@
+@*    <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#"><i class="fa fa-shopping-cart">Cart(3)</i> <b class="caret"></b></a>
+                        <ul>
+
+                                @foreach (var item in Model)
+                                {
+                                    <li><a href="#">@item.Products.ProductName (@item.Quantity)</a></li>
+                                }
+                            <li class="divider"></li>
+                            <li><a href="#">IT</a></li>
+                        </ul>
+                    </li>
+    </ul>
+</div>
+
+
+            <div>
+               <h3>Products which have been added:</h3>
+                                               @foreach (var item in Model)
+                                {
+                                    <p>@item.Products.ProductName (@item.Quantity)</p>
+                                }
+
+            </div>*@
+
+            <h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Manage your shopping Card</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Products.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products.ListPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) 
+        {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Products.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Products.ListPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        $@(item.Products.ListPrice * item.Quantity)
+                    </td>
+
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Products.ProductID">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Products.ProductID">Delete</a>
+                    </td>
+                </tr>
+        }
     </tbody>
 </table>
