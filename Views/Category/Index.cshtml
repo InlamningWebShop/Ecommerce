@@ -1,23 +1,15 @@
-﻿
-@model IEnumerable<Ecom.Models.Category>
+﻿@model IEnumerable<Ecom.Models.Category>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Category";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-
-
-
-@*<table class="table">
+<table class="table">
     <thead>
         <tr>
             <th>
 
-                @Html.DisplayNameFor(model => model.CategoryName)
+                <h1>Categories</h1>
             </th>
             <th></th>
         </tr>
@@ -27,8 +19,8 @@
         {
             <tr>
                 <td>
-                    <div class="card" style="width: 18rem;">
-                        <img src="..." class="card-img-top" alt="...">
+                    <div class="card" style="width: 18rem;">@*
+                        <img src="..." class="card-img-top" alt="...">*@
                         <div class="card-body">
                             <h5 class="card-title"> @Html.DisplayFor(modelItem => item.CategoryName)</h5>
                         </div>
@@ -44,7 +36,7 @@
     </tbody>
 </table>
 
-
+@*
 <div class="page">
 
 
